@@ -10,6 +10,7 @@ const instance = axios.create({
  */
 
 export const getNews = async (offset) => {
+  console.log('Data is being fetched');
   const response = await instance.get("/getNews", { params: { count: 20, offset: offset * 20 } });
   const { data } = response.data;
   const requiredData = data.map((item) => {

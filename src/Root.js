@@ -11,6 +11,7 @@ const Root = () => (
     <Stack.Screen
       name="Home"
       component={HomeScreen}
+      // Action bar is styled.
       options={{
         headerTitle: "News",
         headerTitleStyle: {

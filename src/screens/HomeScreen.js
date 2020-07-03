@@ -1,27 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, FlatList } from "react-native";
-import { Button, Text, ActivityIndicator } from "react-native-paper";
-
-import api from "../api/newsApi";
+import { ActivityIndicator, Text } from "react-native-paper";
+import { Context as ViewContext } from "./../context/ViewContext";
 import ListCard from "../components/Card";
 import useNews from "../hooks/useNews";
+import { COMFY } from "../constants";
 
 const HomeScreen = () => {
   const [offset, setOffset] = useState(0);
+  const {
+    state: { viewType },
+  } = useContext(ViewContext);
+  
   const [news] = useNews(offset);
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={news}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <ListCard item={item} />}
-        onEndReachedThreshold={0.1}
-        onEndReached={() => setOffset(offset + 1)}
-        ListFooterComponent={() => <ActivityIndicator size="small" />}
-      />
       <StatusBar style="auto" />
+      {viewType === COMFY ? (
+        <FlatList
+          data={news}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({ item }) => <ListCard item={item} />}
+          onEndReachedThreshold={0.02} // Declaring the offset before for faster and more responsive fetching.
+          onEndReached={() => setOffset(offset + 1)}
+          ListFooterComponent={() => <ActivityIndicator size="small" />}
+        />
+      ) : (
+        <Text>Hello</Text>
+      )}
     </View>
   );
 };

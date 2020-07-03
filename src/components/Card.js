@@ -1,51 +1,67 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Card, Title, Paragraph, TouchableRipple } from "react-native-paper";
-import { min } from "react-native-reanimated";
 
-const ListCard = ({ item }) => {
-  const [showMore, setShowMore] = useState(false);
-  const title = showMore ? "Show less" : "Show more";
+/* 
+* Similar input, similar output. Shallow comparison in ComponentDidUpdate can be afforded
+  because the list is long and future state is appended instead of being reconstructed.
+*/
+class ListCard extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-  // Returns the appropriate time as an understandable string.
-  const getTime = () => {
-    let str = "";
-    const minutes = new Date(item.createdAt).getMinutes();
+    this.state = { showMore: false };
+  }
+
+  /* Returns the time with an appropriate metric as an understandable string. */
+  getTime = () => {
+    const minutes = new Date(this.props.item.createdAt).getMinutes();
     if (minutes > 60) {
       // Need to calculate hours as minutes are too long.
-      const hours = (minutes / 60);
-      if(hours > 24){
+      const hours = minutes / 60;
+      if (hours > 24) {
         const days = hours / 24;
         return `Created ${days} days ago`;
       } else return `Created ${hours} hours ago`;
     } else return `Created ${minutes} minutes ago`;
   };
-  return (
-    <View style={{ paddingHorizontal: 8, paddingBottom: 8 }}>
-      <Card>
-        <Card.Content>
-          <Title numberOfLines={showMore ? null : 2}>{item.headline}</Title>
-          <Paragraph numberOfLines={showMore ? null : 3} style={styles.content}>
-            {item.summary}
-          </Paragraph>
-        </Card.Content>
-        <Card.Cover source={{ uri: item.imageUrl }} />
-        {showMore ? (
+
+  handleShow = () => {
+    this.setState((prevState) => ({
+      showMore: !prevState.showMore,
+    }));
+  };
+
+  render() {
+    return (
+      <View style={{ paddingHorizontal: 8, paddingBottom: 8 }}>
+        <Card>
           <Card.Content>
-            <Paragraph numberOfLines={1} style={styles.time}>
-              {getTime()}
+            <Title numberOfLines={this.state.showMore ? null : 2}>{this.props.item.headline}</Title>
+            <Paragraph numberOfLines={this.state.showMore ? null : 3} style={styles.content}>
+              {this.props.item.summary}
             </Paragraph>
           </Card.Content>
-        ) : null}
-        <Card.Actions>
-          <TouchableRipple rippleColor="rgba(0, 0, 0, .32)" onPress={() => console.log("Pressed")}>
-            <Button onPress={() => setShowMore(!showMore)}>{title}</Button>
-          </TouchableRipple>
-        </Card.Actions>
-      </Card>
-    </View>
-  );
-};
+          <Card.Cover source={{ uri: this.props.item.imageUrl }} />
+          {this.state.showMore ? (
+            <Card.Content>
+              <Paragraph numberOfLines={1} style={styles.time}>
+                {this.getTime()}
+              </Paragraph>
+            </Card.Content>
+          ) : null}
+          <Card.Actions>
+            <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
+              <Button onPress={() => this.handleShow()}>
+                {this.state.showMore ? "Show less" : "Show more"}
+              </Button>
+            </TouchableRipple>
+          </Card.Actions>
+        </Card>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   content: {
