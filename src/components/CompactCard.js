@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Card, Paragraph, TouchableRipple, Title } from "react-native-paper";
-
+import { Button, Card, Paragraph, TouchableRipple } from "react-native-paper";
+import getTime from "../api/getTime";
 /* 
 * Similar input, similar output. Shallow comparison in ComponentDidUpdate can be afforded
   because the list is long and future state is appended instead of being reconstructed.
@@ -13,18 +13,6 @@ class CompactCard extends React.PureComponent {
     this.state = { showMore: false };
   }
 
-  /* Returns the time with an appropriate metric as an understandable string. */
-  getTime = () => {
-    const {
-      item: { createdAt },
-    } = this.props;
-    const dateObj = new Date(createdAt);
-    const day = dateObj.getDate();
-    const month = dateObj.getMonth();
-    const year = dateObj.getFullYear();
-    return `Created at : ${day}/${month}/${year}`;
-  };
-
   handleShow = () => {
     this.setState((prevState) => ({
       showMore: !prevState.showMore,
@@ -33,9 +21,11 @@ class CompactCard extends React.PureComponent {
 
   render() {
     const {
-      item: { headline, imageUrl, _id },
+      item: { headline, imageUrl, createdAt },
       handleNavigation,
     } = this.props;
+
+    const { item } = this.props;
     const { showMore } = this.state;
 
     return (
@@ -50,10 +40,14 @@ class CompactCard extends React.PureComponent {
           {showMore ? (
             <>
               <Card.Content>
-                <Paragraph>{this.getTime()}</Paragraph>
+                <Paragraph style={{ fontStyle: "italic" }}>{getTime(createdAt)}</Paragraph>
               </Card.Content>
               <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-                <Button mode="contained" onPress={() => handleNavigation(_id)} style={{ alignSelf: "flex-start", margin: 16 }}>
+                <Button
+                  mode="contained"
+                  onPress={() => handleNavigation(item)}
+                  style={{ margin: 8 }}
+                >
                   Details
                 </Button>
               </TouchableRipple>
@@ -61,7 +55,10 @@ class CompactCard extends React.PureComponent {
           ) : null}
           <Card.Actions>
             <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-              <Button onPress={() => this.handleShow()} style={{ alignSelf: "flex-start", right: 5 }}>
+              <Button
+                onPress={() => this.handleShow()}
+                style={{ alignSelf: "flex-start", right: 5 }}
+              >
                 {showMore ? "Show less" : "Show more"}
               </Button>
             </TouchableRipple>

@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleListEnd = () => setOffset(offset + 1);
 
-  const handleNavigation = (id) => navigation.navigate("Detail", { id });
+  const handleNavigation = (item) => navigation.navigate("Detail", { item });
 
   const renderComfy = (item) => <ComfyCard item={item} handleNavigation={handleNavigation} />;
 

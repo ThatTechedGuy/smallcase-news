@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Card, Title, Paragraph, TouchableRipple } from "react-native-paper";
+import getTime from "./../api/getTime";
 
 /* 
 * Similar input, similar output. Shallow comparison in ComponentDidUpdate can be afforded
@@ -12,19 +13,6 @@ class ListCard extends React.PureComponent {
 
     this.state = { showMore: false };
   }
-
-  /* Returns the time with an appropriate metric as an understandable string. */
-  getTime = () => {
-    const minutes = new Date(this.props.item.createdAt).getMinutes();
-    if (minutes > 60) {
-      // Need to calculate hours as minutes are too long.
-      const hours = minutes / 60;
-      if (hours > 24) {
-        const days = hours / 24;
-        return `Created ${days} days ago`;
-      } else return `Created ${hours} hours ago`;
-    } else return `Created ${minutes} minutes ago`;
-  };
 
   handleShow = () => {
     this.setState((prevState) => ({
@@ -44,11 +32,20 @@ class ListCard extends React.PureComponent {
           </Card.Content>
           <Card.Cover source={{ uri: this.props.item.imageUrl }} />
           {this.state.showMore ? (
-            <Card.Content>
-              <Paragraph numberOfLines={1} style={styles.time}>
-                {this.getTime()}
-              </Paragraph>
-            </Card.Content>
+            <View style={styles.row}>
+              <Card.Content>
+                <Paragraph style={styles.time}>{getTime(this.props.item.createdAt)}</Paragraph>
+              </Card.Content>
+              <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
+                <Button
+                  mode="contained"
+                  onPress={() => handleNavigation(this.props.item)}
+                  style={{ margin: 8 }}
+                >
+                  Details
+                </Button>
+              </TouchableRipple>
+            </View>
           ) : null}
           <Card.Actions>
             <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
@@ -67,6 +64,7 @@ const styles = StyleSheet.create({
   content: {
     marginVertical: 10,
   },
+  row: { flex: 1, marginTop: 10, flexDirection: "row", justifyContent: "space-between" },
   time: {
     marginTop: 10,
     fontStyle: "italic",

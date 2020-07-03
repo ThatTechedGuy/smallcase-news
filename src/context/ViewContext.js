@@ -11,4 +11,8 @@ const viewReducer = (state, action) => {
 
 const switchView = (dispatch) => (view) => dispatch({ type: "SWITCH_VIEW", payload: view });
 
-export const { Context, Provider } = createDataContext(viewReducer, { switchView }, {viewType: COMFY});
+export const { Context, Provider } = createDataContext(
+  viewReducer,
+  { switchView },
+  { viewType: COMFY }
+);
