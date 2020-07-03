@@ -21,6 +21,7 @@ class ListCard extends React.PureComponent {
   };
 
   render() {
+    const { handleNavigation } = this.props;
     return (
       <View style={{ paddingHorizontal: 8, paddingBottom: 8 }}>
         <Card>
