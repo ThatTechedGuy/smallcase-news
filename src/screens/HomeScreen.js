@@ -6,7 +6,7 @@ import useNews from "../hooks/useNews";
 import { COMFY } from "../constants";
 
 import ListView from "../containers/ListView";
-import ListCard from "../components/Card";
+import ComfyCard from "../components/ComfyCard";
 import CompactCard from "../components/CompactCard";
 
 const HomeScreen = () => {
@@ -20,7 +20,7 @@ const HomeScreen = () => {
 
   const handleListEnd = () => setOffset(offset + 1);
 
-  const renderComfy = (item) => <ListCard item={item} />;
+  const renderComfy = (item) => <ComfyCard item={item} />;
 
   const renderCompact = (item) => <CompactCard item={item} />;
 
