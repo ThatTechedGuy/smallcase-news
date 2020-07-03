@@ -71,7 +71,8 @@ class CompactCard extends React.PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 8,
+    marginHorizontal: 4,
+    marginVertical: 8,
     flex: 1,
   },
   content: {
