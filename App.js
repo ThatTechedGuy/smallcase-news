@@ -1,15 +1,29 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StatusBar } from "expo-status-bar";
 import HomeScreen from "./src/screens/HomeScreen";
-import { Switch } from "react-native-paper";
+import Switcher from "./src/components/Switcher";
 
 const Stack = createStackNavigator();
 
 const App = () => (
   <Stack.Navigator initialRouteName="Home">
-    <Stack.Screen name="Home" component={HomeScreen} options={{headerTitle: 'News', headerRight: () => <Switch></Switch>}}></Stack.Screen>
+    <Stack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{
+        headerTitle: "News",
+        headerTitleStyle: {
+          color: "#fff",
+          fontSize: 40
+        },
+        headerRight: () => <Switcher />,
+        headerStyle: {
+          backgroundColor: "#7a44cf",
+          height: 120,
+        },
+      }}
+    ></Stack.Screen>
   </Stack.Navigator>
 );
 
