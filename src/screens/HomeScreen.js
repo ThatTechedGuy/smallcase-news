@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, FlatList } from "react-native";
 import { Button, Text, ActivityIndicator } from "react-native-paper";
 
 import api from "../api/newsApi";
 import ListCard from "../components/Card";
+import useNews from "../hooks/useNews";
 
 const HomeScreen = () => {
-  const [news, setNews] = useState([]);
   const [offset, setOffset] = useState(0);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get("/getNews", { params: { count: 20, offset: offset * 20 } });
-      const { data } = response.data;
-      const requiredData = data.map((item) => {
-        const { _id, headline, summary, createdAt, imageUrl } = item;
-        return { _id, headline, summary, createdAt, imageUrl };
-      });
-      setNews(news.concat(requiredData));
-    };
-
-    fetchData();
-  }, [offset]);
+  const [news] = useNews(offset);
 
   return (
     <View style={styles.container}>
