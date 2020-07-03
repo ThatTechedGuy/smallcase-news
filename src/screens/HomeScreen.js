@@ -1,34 +1,47 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, FlatList } from "react-native";
-import { ActivityIndicator, Text } from "react-native-paper";
 import { Context as ViewContext } from "./../context/ViewContext";
-import ListCard from "../components/Card";
 import useNews from "../hooks/useNews";
 import { COMFY } from "../constants";
 
+import ListView from "../containers/ListView";
+import ListCard from "../components/Card";
+import CompactCard from "../components/CompactCard";
+
 const HomeScreen = () => {
   const [offset, setOffset] = useState(0);
+  /* To know the current view type */
   const {
     state: { viewType },
   } = useContext(ViewContext);
-  
+
   const [news] = useNews(offset);
+
+  const handleListEnd = () => setOffset(offset + 1);
+
+  const renderComfy = (item) => <ListCard item={item} />;
+
+  const renderCompact = (item) => <CompactCard item={item} />;
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {viewType === COMFY ? (
-        <FlatList
-          data={news}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={({ item }) => <ListCard item={item} />}
-          onEndReachedThreshold={0.02} // Declaring the offset before for faster and more responsive fetching.
-          onEndReached={() => setOffset(offset + 1)}
-          ListFooterComponent={() => <ActivityIndicator size="small" />}
+        <ListView
+          key={"1"}
+          news={news}
+          handleListEnd={handleListEnd}
+          renderListItem={renderComfy}
         />
       ) : (
-        <Text>Hello</Text>
+        <ListView
+          key={"2"}
+          news={news}
+          handleListEnd={handleListEnd}
+          renderListItem={renderCompact}
+          columns={2}
+        />
       )}
     </View>
   );
