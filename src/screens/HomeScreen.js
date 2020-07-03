@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Context as ViewContext } from "./../context/ViewContext";
 import useNews from "../hooks/useNews";
 import { COMFY } from "../constants";
