@@ -9,7 +9,7 @@ import ListView from "../containers/ListView";
 import ComfyCard from "../components/ComfyCard";
 import CompactCard from "../components/CompactCard";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [offset, setOffset] = useState(0);
   /* To know the current view type */
   const {
@@ -20,9 +20,11 @@ const HomeScreen = () => {
 
   const handleListEnd = () => setOffset(offset + 1);
 
-  const renderComfy = (item) => <ComfyCard item={item} />;
+  const handleNavigation = (id) => navigation.navigate("Detail", { id });
 
-  const renderCompact = (item) => <CompactCard item={item} />;
+  const renderComfy = (item) => <ComfyCard item={item} handleNavigation={handleNavigation} />;
+
+  const renderCompact = (item) => <CompactCard item={item} handleNavigation={handleNavigation} />;
 
   return (
     <View style={styles.container}>

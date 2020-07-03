@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import Root from "./src/Root";
 import { Provider as ViewProvider } from "./src/context/ViewContext";
-import { View } from "react-native";
 
 const App = () => <Root />;
 

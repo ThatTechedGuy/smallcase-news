@@ -33,9 +33,11 @@ class CompactCard extends React.PureComponent {
 
   render() {
     const {
-      item: { headline, imageUrl },
+      item: { headline, imageUrl, _id },
+      handleNavigation,
     } = this.props;
     const { showMore } = this.state;
+
     return (
       <View style={styles.container}>
         <Card>
@@ -46,18 +48,20 @@ class CompactCard extends React.PureComponent {
             </Paragraph>
           </Card.Content>
           {showMore ? (
-            <Card.Content>
-              <Paragraph>{this.getTime()}</Paragraph>
+            <>
+              <Card.Content>
+                <Paragraph>{this.getTime()}</Paragraph>
+              </Card.Content>
               <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-                <Button onPress={() => this.handleShow()}>
+                <Button mode="contained" onPress={() => handleNavigation(_id)} style={{ alignSelf: "flex-start", margin: 16 }}>
                   Details
                 </Button>
               </TouchableRipple>
-            </Card.Content>
+            </>
           ) : null}
           <Card.Actions>
             <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-              <Button onPress={() => this.handleShow()}>
+              <Button onPress={() => this.handleShow()} style={{ alignSelf: "flex-start", right: 5 }}>
                 {showMore ? "Show less" : "Show more"}
               </Button>
             </TouchableRipple>
