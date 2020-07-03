@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Card, Paragraph, TouchableRipple } from "react-native-paper";
+import { View, StyleSheet, Text } from "react-native";
+import { Button, Card, Paragraph, TouchableRipple, Title } from "react-native-paper";
 import getTime from "../api/getTime";
 /* 
 * Similar input, similar output. Shallow comparison in ComponentDidUpdate can be afforded
@@ -33,9 +33,9 @@ class CompactCard extends React.PureComponent {
         <Card>
           <Card.Cover source={{ uri: imageUrl }} />
           <Card.Content>
-            <Paragraph numberOfLines={showMore ? null : 2} style={styles.title}>
+            <Text numberOfLines={showMore ? null : 2} style={styles.title}>
               {headline}
-            </Paragraph>
+            </Text>
           </Card.Content>
           {showMore ? (
             <>
@@ -79,8 +79,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: 15,
+    fontWeight: "700",
+    fontSize: 16,
+    marginTop: 8,
   },
   time: {
     marginTop: 10,
