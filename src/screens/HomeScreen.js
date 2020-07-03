@@ -33,9 +33,7 @@ const HomeScreen = () => {
         <FlatList
           data={data}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <ListCard item={item} />
-          )}
+          renderItem={({ item }) => <ListCard item={item} />}
         />
       )}
       <StatusBar style="auto" />
@@ -44,8 +42,8 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container:{
-    marginTop: 5
+  container: {
+    marginTop: 5,
   },
   row: {
     flex: 0.5,
