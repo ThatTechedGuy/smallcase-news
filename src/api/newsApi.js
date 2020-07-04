@@ -10,14 +10,17 @@ const instance = axios.create({
  */
 
 export const getNews = async (offset) => {
-  console.log('Data is being fetched');
-  const response = await instance.get("/getNews", { params: { count: 20, offset: offset * 20 } });
-  const { data } = response.data;
-  const requiredData = data.map((item) => {
-    const { _id, headline, summary, createdAt, imageUrl } = item;
-    return { _id, headline, summary, createdAt, imageUrl };
-  });
-  return requiredData;
+  try {
+    const response = await instance.get("/getNews", { params: { count: 20, offset: offset * 20 } });
+    const { data } = response.data;
+    const requiredData = data.map((item) => {
+      const { _id, headline, summary, createdAt, imageUrl } = item;
+      return { _id, headline, summary, createdAt, imageUrl };
+    });
+    return requiredData;
+  } catch (e) {
+    throw Error("Something went wrong");
+  }
 };
 
 export default instance;

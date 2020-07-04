@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import {Context as ViewContext} from './../context/ViewContext';
 
 export default (offset) => {
-  const {state: {news, viewType}, fetchNews} = useContext(ViewContext)
+  const {state: {news, viewType, error}, fetchNews} = useContext(ViewContext)
   /**
    * INPUT: Current user offset state. As soon as the user scrolls through 20 items, the offset changes.
    */
@@ -10,5 +10,5 @@ export default (offset) => {
     fetchNews(offset);
   }, [offset]);
 
-  return [news, viewType];
+  return [news, viewType, error];
 };

@@ -7,7 +7,9 @@ const viewReducer = (state, action) => {
     case "SWITCH_VIEW":
       return { ...state, viewType: action.payload };
     case "GET_NEWS":
-      return { ...state, news: [...state.news, ...action.payload] };
+      return { ...state, news: [...state.news, ...action.payload], error: "" };
+    case "SHOW_ERROR_MESSAGE":
+      return {...state, news: [], error: action.payload}
     default:
       return state;
   }
@@ -16,12 +18,16 @@ const viewReducer = (state, action) => {
 const switchView = (dispatch) => (view) => dispatch({ type: "SWITCH_VIEW", payload: view });
 
 const fetchNews = (dispatch) => async (offset) => {
-  const news = await getNews(offset);
-  dispatch({ type: "GET_NEWS", payload: news });
+  try {
+    const news = await getNews(offset);
+    dispatch({ type: "GET_NEWS", payload: news });
+  } catch (e) {
+    dispatch({ type: "SHOW_ERROR_MESSAGE", payload: e.message });
+  }
 };
 
 export const { Context, Provider } = createDataContext(
   viewReducer,
   { switchView, fetchNews },
-  { viewType: COMFY, news: [] }
+  { viewType: COMFY, news: [], error: "" }
 );
