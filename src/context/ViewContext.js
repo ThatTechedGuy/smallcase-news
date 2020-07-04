@@ -18,6 +18,7 @@ const viewReducer = (state, action) => {
 const switchView = (dispatch) => (view) => dispatch({ type: "SWITCH_VIEW", payload: view });
 
 const fetchNews = (dispatch) => async (offset) => {
+  console.log('fetching...');
   try {
     const news = await getNews(offset);
     dispatch({ type: "GET_NEWS", payload: news });

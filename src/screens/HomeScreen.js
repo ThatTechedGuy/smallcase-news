@@ -7,7 +7,8 @@ import { COMFY } from "../constants";
 import ListView from "../components/ListView";
 import ComfyCard from "../components/ComfyCard";
 import CompactCard from "../components/CompactCard";
-import { color } from "react-native-reanimated";
+import ErrorText from "../components/ErrorText";
+import { set } from "react-native-reanimated";
 
 const HomeScreen = ({ navigation }) => {
   const [offset, setOffset] = useState(0);
@@ -21,20 +22,9 @@ const HomeScreen = ({ navigation }) => {
   const renderComfy = (item) => <ComfyCard item={item} handleNavigation={handleNavigation} />;
   const renderCompact = (item) => <CompactCard item={item} handleNavigation={handleNavigation} />;
 
-  if (error !== "")
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 20 }}>
-        <Text style={{ color: "red", fontSize: 40, fontWeight: "bold", textAlign: "center" }}>
-          Error
-        </Text>
-        <Text style={{ color: "red", fontSize: 20, fontWeight: "normal" }}>{error}</Text>
-        <Text style={{ color: "grey", fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
-          {
-            "Check your net connection or restart the application.\nIf this is a server problem we are already working on it."
-          }
-        </Text>
-      </View>
-    );
+  if (error !== "") {
+    return <ErrorText errorText={error} handlePress={() => setOffset(0)} />;
+  }
 
   return (
     <View style={styles.container}>

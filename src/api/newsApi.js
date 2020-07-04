@@ -17,6 +17,7 @@ export const getNews = async (offset) => {
       const { _id, headline, summary, createdAt, imageUrl } = item;
       return { _id, headline, summary, createdAt, imageUrl };
     });
+    console.log('ITEMS length:' , requiredData.length, 'OFFSET:', offset);
     return requiredData;
   } catch (e) {
     throw Error("Something went wrong");
