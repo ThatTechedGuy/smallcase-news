@@ -1,15 +1,14 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
-import Root from "./src/Root";
 import { Provider as ViewProvider } from "./src/context/ViewContext";
+import Root from "./src/Root";
 
 const App = () => <Root />;
 
 const theme = {
   ...DefaultTheme,
-  roundness: 5,
+  roundness: 10,
 };
 
 export default () => {

@@ -2,6 +2,8 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button, Card, Paragraph, TouchableRipple, Title } from "react-native-paper";
 import getTime from "../api/getTime";
+import ContainedButton from "./DetailButton";
+import ShowMoreButton from "./ShowMoreButton";
 /* 
 * Similar input, similar output. Shallow comparison in ComponentDidUpdate can be afforded
   because the list is long and future state is appended instead of being reconstructed.
@@ -20,20 +22,21 @@ class CompactCard extends React.PureComponent {
   };
 
   render() {
-    const {
-      item: { headline, imageUrl, createdAt },
-      handleNavigation,
-    } = this.props;
-
+    const { handleNavigation } = this.props;
     const { item } = this.props;
+    const { headline, summary, createdAt, imageUrl } = item;
+
     const { showMore } = this.state;
+    const titleLines = showMore ? null : 2;
+    const showMoreText = showMore ? "Show less" : "Show more";
+    const summaryLines = showMore ? null : 3;
 
     return (
       <View style={styles.container}>
         <Card>
           <Card.Cover source={{ uri: imageUrl }} />
           <Card.Content>
-            <Text numberOfLines={showMore ? null : 2} style={styles.title}>
+            <Text numberOfLines={titleLines} style={styles.title}>
               {headline}
             </Text>
           </Card.Content>
@@ -42,26 +45,11 @@ class CompactCard extends React.PureComponent {
               <Card.Content>
                 <Paragraph style={{ fontStyle: "italic" }}>{getTime(createdAt)}</Paragraph>
               </Card.Content>
-              <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-                <Button
-                  mode="contained"
-                  onPress={() => handleNavigation(item)}
-                  style={{ margin: 8 }}
-                >
-                  Details
-                </Button>
-              </TouchableRipple>
+              <ContainedButton text="Details" handlePress={() => handleNavigation(item)} />
             </>
           ) : null}
           <Card.Actions>
-            <TouchableRipple rippleColor="rgba(0, 0, 0, .32)">
-              <Button
-                onPress={() => this.handleShow()}
-                style={{ alignSelf: "flex-start", right: 5 }}
-              >
-                {showMore ? "Show less" : "Show more"}
-              </Button>
-            </TouchableRipple>
+            <ShowMoreButton text={showMoreText} handlePress={() => this.handleShow()} />
           </Card.Actions>
         </Card>
       </View>

@@ -8,22 +8,26 @@ const options = [
   { label: COMPACT, value: COMPACT },
 ];
 
-const Switcher = () => {
-  const { switchView } = useContext(ViewContext);
-
-  return (
-    <SwitchSelector
-      initial={0}
-      textColor={colors.PURPLE}
-      selectedColor={colors.WHITE}
-      buttonColor={colors.PURPLE}
-      borderColor={colors.PURPLE}
-      hasPadding
-      onPress={switchView}
-      options={options}
-      style={{ marginRight: 20, width: 200 }}
-    />
-  );
-};
+class Switcher extends React.PureComponent {
+  render() {
+    return (
+      <ViewContext.Consumer>
+        {({switchView}) => (
+          <SwitchSelector
+            initial={0}
+            textColor={colors.PURPLE}
+            selectedColor={colors.WHITE}
+            buttonColor={colors.PURPLE}
+            borderColor={colors.PURPLE}
+            hasPadding
+            onPress={switchView}
+            options={options}
+            style={{ marginRight: 20, width: 200 }}
+          />
+        )}
+      </ViewContext.Consumer>
+    );
+  }
+}
 
 export default Switcher;

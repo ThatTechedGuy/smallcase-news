@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, _FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
 const ListView = ({ news, handleListEnd, renderListItem, columns = null }) => {

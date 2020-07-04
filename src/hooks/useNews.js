@@ -1,19 +1,14 @@
-import React from "react";
-import { getNews } from "./../api/newsApi";
+import React, { useContext } from "react";
+import {Context as ViewContext} from './../context/ViewContext';
 
 export default (offset) => {
-  const [news, setNews] = React.useState([]);
+  const {state: {news, viewType}, fetchNews} = useContext(ViewContext)
   /**
    * INPUT: Current user offset state. As soon as the user scrolls through 20 items, the offset changes.
    */
   React.useEffect(() => {
-    const fetchData = async () => {
-      const newData = await getNews(offset);
-      setNews(news.concat(newData));
-    };
-
-    fetchData();
+    fetchNews(offset);
   }, [offset]);
 
-  return [news];
+  return [news, viewType];
 };
