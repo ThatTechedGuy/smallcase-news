@@ -1,44 +1,56 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Paragraph } from "react-native-paper";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, ScrollView } from "react-native";
 import getTime from "../api/getTime";
+import { Context as ViewContext } from "../context/ViewContext";
 
 const DetailScreen = ({ route }) => {
-  const { item } = route.params;
-
+  const {
+    state: { news },
+  } = useContext(ViewContext);
+  const { id } = route.params;
+  const item = news.find((i) => i._id === id);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <View style={styles.container}>
+        <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      </View>
       <Text style={styles.headline}>{item.headline}</Text>
-      <Image source={{ uri: item.imageUrl }} style={styles.image} />
-      <Paragraph style={styles.summary}>{item.summary}</Paragraph>
+      <Paragraph style={styles.summary}>
+        {item.summary === undefined ? "Summary text" : item.summary}
+      </Paragraph>
       <Paragraph style={styles.time}>{getTime(item.createdAt)}</Paragraph>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    flexDirection: "column",
+    marginHorizontal: 16,
+    textAlign: "center",
+    marginVertical: 8,
   },
   image: {
-    flex: 0.4,
+    flex: 1,
     borderRadius: 10,
     borderWidth: 0.5,
+    height: 200,
   },
   headline: {
-    paddingTop: 30,
-    fontSize: 40,
-    marginBottom: 16,
+    marginHorizontal: 16,
+    fontSize: 30,
     fontWeight: "bold",
   },
   summary: {
-    paddingTop: 30,
-    fontSize: 20,
+    marginHorizontal: 16,
+    fontSize: 15,
   },
   time: {
-    ...this.summary,
+    marginHorizontal: 16,
     fontStyle: "italic",
+    fontSize: 16,
   },
 });
 

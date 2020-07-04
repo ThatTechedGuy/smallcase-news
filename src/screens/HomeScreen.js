@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
   /* On reaching the list end, more data is fetched. */
   const handleListEnd = () => setOffset(offset + 1);
   /* Navigate to the details screen on button press. */
-  const handleNavigation = (item) => navigation.navigate("Detail", { item });
+  const handleNavigation = (item) => navigation.navigate("Detail", { id: item._id });
   /* Render the particular cards based on the mode. */
   const renderComfy = (item) => <ComfyCard item={item} handleNavigation={handleNavigation} />;
   const renderCompact = (item) => <CompactCard item={item} handleNavigation={handleNavigation} />;
