@@ -2,7 +2,11 @@
 Task Phase Assignment for the smallcase news API featuring infinite news scroll.
 The project was built using the expo ecosystem.
 A Material Design library - React Native Paper was used.
-Context api and hooks were used for state management.
+Context API and Hooks were used for state management.
+Axios was used for data fetching.
+
+
+
 
 To run the application: 
 
